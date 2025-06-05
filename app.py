@@ -5,7 +5,7 @@ import pandas as pd
 
 st.title("Shopify CSV Generator with GPT")
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
 if uploaded_file:
