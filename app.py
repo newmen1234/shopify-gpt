@@ -2,6 +2,7 @@
 import streamlit as st
 import openai
 import pandas as pd
+import os
 
 st.title("Shopify CSV Generator with GPT")
 
