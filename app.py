@@ -1,12 +1,12 @@
 
 import streamlit as st
-import openai
 import pandas as pd
+from openai import OpenAI
 import os
 
 st.title("Shopify CSV Generator with GPT")
 
-openai.api_key = os.environ["OPENAI_API_KEY"]
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
 if uploaded_file:
@@ -15,11 +15,11 @@ if uploaded_file:
 
     for _, row in df.iterrows():
         prompt = f"Сделай краткое описание товара: {row['Name']}"
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": prompt}]
         )
-        description = response.choices[0].message['content']
+        description = response.choices[0].message.content
         output.append({
             "Handle": row['Name'].lower().replace(" ", "-"),
             "Title": row['Name'],
