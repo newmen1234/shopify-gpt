@@ -2,19 +2,13 @@
 import streamlit as st
 import pandas as pd
 from openai import OpenAI
-import os
 
-st.set_page_config(page_title="Shopify CSV GPT", layout="centered")
-st.title("🛒 Shopify CSV Generator with GPT")
+st.set_page_config(page_title="Shopify GPT (ENV mode)", layout="centered")
+st.title("📦 Shopify CSV GPT (via Environment Variables)")
 
-# Инициализация клиента OpenAI с поддержкой project и organization ID
-client = OpenAI(
-    api_key=os.environ["OPENAI_API_KEY"],
-    project=os.environ.get("OPENAI_PROJECT_ID"),
-    organization=os.environ.get("OPENAI_ORG_ID")
-)
+client = OpenAI()  # SDK берёт ключ и project из переменных окружения
 
-uploaded_file = st.file_uploader("📤 Upload CSV file", type=["csv"])
+uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
     if not {"Name", "EAN", "Brand", "Price"}.issubset(df.columns):
